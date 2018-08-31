@@ -2,36 +2,18 @@
 
 from string import ascii_lowercase
 import discord
+import opus_api
+from dictionaries import CHAR_TO_EMOJI_DICT
 
 TOKEN = "NDAyNTU5NTc2NDU4OTE5OTQ2.DmnfFw.ixCEUKx5bX2kecgE2qyhyEiRcVs"
 
 client = discord.Client()
 
-CHAR_TO_EMOJI_DICT = {
-    "a":":a:",
-    "b":":b:",
-    "o":":o2:",
-    "!":":exclamation:",
-    "?":":question:",
-    "0":":zero:",
-    "1":":one:",
-    "2":":two:",
-    "3":":three:",
-    "4":":four:",
-    "5":":five:",
-    "6":":six:",
-    "7":":seven:",
-    "8":":eight:",
-    "9":":nine:",
-    "+":":heavy_plus_sign:",
-    "-":":heavy_minus_sign:",
-    "$":":heavy_dollar_sign:",
-    " ":" "
-}
+#voice_client = discord.VoiceClient()
 
 @client.event
 async def on_message(message):
-    """For functions that trigger on a button press"""
+    """For functions that trigger on a message"""
     if message.author == client.user:
         return
 
@@ -45,5 +27,11 @@ async def on_message(message):
                 msg_dict.append(":regional_indicator_{0}:".format(char.lower()))
         await client.send_message(message.channel, " ".join(msg_dict))
 
+    ##if message.content.startswith("$tts"):
+    ##   voice_msg = message.content[5::]
+    ##
+
+    #if message.content.startswith("$sfx"):
+        
 
 client.run(TOKEN)
