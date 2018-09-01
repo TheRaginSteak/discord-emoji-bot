@@ -3,7 +3,6 @@
 import json
 import discord
 import text_manipulaton
-import sfx
 
 with open("config.json") as data:
     BOT_CONFIG = json.load(data)
@@ -32,19 +31,18 @@ async def on_message(message):
             try:
                 await client.send_message(message.channel, "Playing '{}.mp3'".format(voice_sample))
                 voice = await client.join_voice_channel(message.author.voice_channel)
-                player = voice.create_ffmpeg_player("{}.mp3".format(voice_sample))
+                player = voice.create_ffmpeg_player("sfx/{}.mp3".format(voice_sample))
                 player.start()
+                while True:
+                    if player.is_done():
+                        await voice.disconnect()
+                        break
+
             except discord.errors.ClientException:
                 pass
         else:
             await client.send_message(message.channel, "Error: Please join a voice channel")
-        try:
-            while True:
-                if player.is_done():
-                    await voice.disconnect()
-                break
-        except discord.errors.ClientException:
-            pass
+
 
 
 client.run(BOT_CONFIG["token"])
