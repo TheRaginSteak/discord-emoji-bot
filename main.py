@@ -2,12 +2,12 @@
 
 import json
 import discord
-import text_manipulaton
+from text_manipulaton import text_to_emoji
 
 with open("config.json") as data:
     BOT_CONFIG = json.load(data)
 
-client = discord.Client()
+client = discord.Client() # pylint: disable=C0103
 
 @client.event
 async def on_ready():
@@ -18,13 +18,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
     """For functions that trigger on a message"""
+    # Ignores command if the bot sent it
     if message.author == client.user:
         return
 
+    # A message will be sent to the chat with the command message written in emojis
     if message.content.startswith("$emoji"):
-        await client.send_message(message.channel, text_manipulaton.text_to_emoji(message.content[7::]))
+        await client.send_message(message.channel, text_to_emoji(message.content[7::]))
         print(("Message '{}' sent on server '{}'.").format(message.content[7::], message.server))
 
+    # Sends the sound effect to a voice channel
     if message.content.startswith("$sfx"):
         if message.author.voice_channel != None:
             voice_sample = message.content[5::]

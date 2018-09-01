@@ -7,7 +7,6 @@ CHAR_TO_EMOJI_DICT = {
     "x":":heavy_multiplication_x:",
     "!":":exclamation:",
     "?":":question:",
-    "-":":heavy_minus_sign:",
     "0":":zero:",
     "1":":one:",
     "2":":two:",
