@@ -1,9 +1,12 @@
 """A discord bot to do dumb emoji stuff"""
 
+import json
 import discord
 import text_manipulaton
+import sfx
 
-TOKEN = "NDAyNTU5NTc2NDU4OTE5OTQ2.DmnfFw.ixCEUKx5bX2kecgE2qyhyEiRcVs"
+with open("config.json") as data:
+    BOT_CONFIG = json.load(data)
 
 client = discord.Client()
 
@@ -23,12 +26,25 @@ async def on_message(message):
         await client.send_message(message.channel, text_manipulaton.text_to_emoji(message.content[7::]))
         print(("Message '{}' sent on server '{}'.").format(message.content[7::], message.server))
 
-    ##if message.content.startswith("$tts"):
-    ##   voice_msg = message.content[5::]
-    ##
+    if message.content.startswith("$sfx"):
+        if message.author.voice_channel != None:
+            voice_sample = message.content[5::]
+            try:
+                await client.send_message(message.channel, "Playing '{}.mp3'".format(voice_sample))
+                voice = await client.join_voice_channel(message.author.voice_channel)
+                player = voice.create_ffmpeg_player("{}.mp3".format(voice_sample))
+                player.start()
+            except discord.errors.ClientException:
+                pass
+        else:
+            await client.send_message(message.channel, "Error: Please join a voice channel")
+        try:
+            while True:
+                if player.is_done():
+                    await voice.disconnect()
+                break
+        except discord.errors.ClientException:
+            pass
 
-    #if message.content.startswith("$sfx"):
-    #    voice_channel = message.member.voiceChannel
 
-
-client.run(TOKEN)
+client.run(BOT_CONFIG["token"])
