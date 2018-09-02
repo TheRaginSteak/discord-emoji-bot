@@ -2,7 +2,7 @@
 
 import json
 import discord
-from text_manipulaton import text_to_emoji
+from text_manipulaton import text_to_emoji, clapping
 
 with open("config.json") as data:
     BOT_CONFIG = json.load(data)
@@ -27,6 +27,10 @@ async def on_message(message):
         await client.send_message(message.channel, text_to_emoji(message.content[7::]))
         print(("Message '{}' sent on server '{}'.").format(message.content[7::], message.server))
 
+    # Sends the message with clap emojis between each word
+    if message.content.startswith("$clap"):
+        await client.send_message(message.channel, clapping(message.content[6::]))
+
     # Sends the sound effect to a voice channel
     if message.content.startswith("$sfx"):
         if message.author.voice_channel != None:
@@ -46,6 +50,15 @@ async def on_message(message):
         else:
             await client.send_message(message.channel, "Error: Please join a voice channel")
 
+    # If a command is attempted that doesn't exist, this is triggered
+    elif message.content.startswith("$"):
+        await client.send_message(message.channel, "Command '{}' not recognised".format(message.content.split(" ")[0]))
 
+@client.event
+async def on_message_delete(message):
+    if message.author == client.user:
+        return
+        
+    await send_message
 
 client.run(BOT_CONFIG["token"])
