@@ -58,7 +58,7 @@ async def on_message(message):
 async def on_message_delete(message):
     if message.author == client.user:
         return
-        
-    await send_message
+
+    #await send_message
 
 client.run(BOT_CONFIG["token"])
