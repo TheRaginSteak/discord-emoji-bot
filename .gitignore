@@ -110,3 +110,6 @@ venv.bak/
 ffmpeg.exe
 ffplay.exe 
 ffprobe.exe
+
+# vscode files
+.vscode
