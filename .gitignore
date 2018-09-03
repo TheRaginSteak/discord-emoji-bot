@@ -111,5 +111,8 @@ ffmpeg.exe
 ffplay.exe 
 ffprobe.exe
 
+<<<<<<< HEAD
 # Testing files
 test.py
+=======
+>>>>>>> 5cd5e68aca10ee89a33b82d02df8a21eb4ab3649
