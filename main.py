@@ -56,6 +56,7 @@ async def on_message(message):
 
 @client.event
 async def on_message_delete(message):
+    """Functions that trigger on a message deleting"""
     if message.author == client.user:
         return
 
